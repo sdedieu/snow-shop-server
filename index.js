@@ -1,10 +1,14 @@
 const express = require("express");
 const fs = require("fs");
-const cors = require('cors');
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
 app.use(cors());
+
+const cart = {
+  items: [],
+};
 
 const items = {
   sales: [
@@ -122,7 +126,7 @@ const items = {
 };
 
 app.get("/", (req, res) => {
-  res.status(200).send('Working !');
+  res.status(200).send("Working !");
 });
 
 app.get("/sales", (req, res) => {
@@ -130,23 +134,23 @@ app.get("/sales", (req, res) => {
 });
 
 app.get("/sales/:id", (req, res) => {
-    res.status(200).send(items.sales.find(s => s.id == req.params.id));
-  });
+  res.status(200).send(items.sales.find((s) => s.id == req.params.id));
+});
 
 app.get("/cross-country", (req, res) => {
   res.status(200).send(items.crosscountry);
 });
 
 app.get("/cross-country/:id", (req, res) => {
-    res.status(200).send(items.crosscountry.find(s => s.id == req.params.id));
-  });
+  res.status(200).send(items.crosscountry.find((s) => s.id == req.params.id));
+});
 
 app.get("/downhill", (req, res) => {
   res.status(200).send(items.downhill);
 });
 
 app.get("/downhill/:id", (req, res) => {
-  res.status(200).send(items.downhill.find(s => s.id == req.params.id));
+  res.status(200).send(items.downhill.find((s) => s.id == req.params.id));
 });
 
 app.get("/snowboard", (req, res) => {
@@ -154,8 +158,12 @@ app.get("/snowboard", (req, res) => {
 });
 
 app.get("/snowboard/:id", (req, res) => {
-    res.status(200).send(items.snowboard.find(s => s.id == req.params.id));
-  });
+  res.status(200).send(items.snowboard.find((s) => s.id == req.params.id));
+});
+
+app.get("/cart/count", (req, res) => {
+   res.status(200).send({count: cart?.items?.length});
+});
 
 app.get("/items/:id/image", (req, res) => {
   fs.readFile("fs/" + req.params.id, (err, data) => {
